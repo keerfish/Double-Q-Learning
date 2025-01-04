@@ -1,6 +1,6 @@
-<kbd><img src='results/world_1_1.gif' align="center" width=384/></kbd>
-<kbd><img src='results/world_1_2.gif' align="center" width=384/></kbd>
-<kbd><img src='results/world_2_3.gif' align="center" width=384/></kbd>
+<kbd><img src='results/world_1_1.gif' align="center" width=350/></kbd>
+<kbd><img src='results/world_1_2.gif' align="center" width=350/></kbd>
+<kbd><img src='results/world_2_3.gif' align="center" width=350/></kbd>
 
 # Play Super Mario with Double Q Learning
 This toy example of Reinforcement Learning demonstrates an implementation of Double Q-Learning to play Super Mario. [Super Mario](https://en.wikipedia.org/wiki/Super_Mario_Bros.) is an arcade game developed and released by Nintendo in 1983. I chose Mario Bros. as a replay implementation example to get familar to reinforce learning because [Pytorch](https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html) supplied a detailed tutorial with this implementation for a comprehensive understanding of the Double Q-learning algorithm. It gives very big convenience of environment setting, software installation, programming running, and results tuning. The implementation here is mostly a replay of the tutorial example from [Pytorch](https://pytorch.org/tutorials/intermediate/mario_rl_tutorial.html).
@@ -17,7 +17,7 @@ The agent's actions are decided by the current state of the environment and the 
 The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved through the use of two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline below.
 
 <p align="center">
-  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="500px"/>
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="450px"/>
 </p>
 
 The start state is the initial state as the input $s$ of the Q-Network to predict the action $a$ that yields the highest Q-value. The Mario Bros. environment returns to the next state after the action. These two elements, along with the current state and action, are stored in a replay buffer.
@@ -49,16 +49,16 @@ In the implementation from the PyTorch tutorial, the action of the Mario agent i
 There are four key metrics for evaluating the performance of the Mario agent trained using reinforcement learning: Reward, Q-value, Losses, and Time Lengths of the episode as follow
 
 <p align="center">
-  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/libs.jpg" align="center" width="350px"/>
+  <kbd><img src='results/world_1_1.gif' align="left" width=300/></kbd>
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/process_world_1_1.jpg" align="center" width="500px"/>
 </p>
 
-The graph shown in the lower right corner of Figure \ref{fig:compare1} displays the moving average of episode lengths, where the x-axis represents the number of episodes and the y-axis represents the length of each episode. The agent has reached a consistent strategy but still experiences variability due to the game’s randomness within a new episode.\\
+The graph shown in the lower right corner of the Figure above displays the moving average of episode lengths, where the x-axis represents the number of episodes and the y-axis represents the length of each episode. The agent has reached a consistent strategy but still experiences variability due to the game’s randomness within a new episode.
+The graph in the lower left corner shows the episode average losses over time. The x-axis represents the number of episodes, and the y-axis represents the average loss. The graph shows a generally converging trend in average loss as the number of episodes progresses. The graph shown in the top right corner displays the Q-value over time, where the x-axis represents the number of episodes and the y-axis represents the Q-value. The Double Q-learning method concluded a consistent Q-value function, which corresponds to the optimal policy. The variation of the Q-value is caused by the exploration during the episode. The reward value is demonstrated in the top left corner, which displays the reward changing over the episode. The x-axis represents the number of episodes, and the y-axis represents the average reward value for each 20 episodes. The graph shows an increase in average reward as the number of episodes progresses. In the end, the reward diagram shows a tendency toward a possible convergence. 
 
-The graph in the lower left corner of Figure \ref{fig:compare1} shows the episode average losses over time. The x-axis represents the number of episodes, and the y-axis represents the average loss. The graph shows a generally converging trend in average loss as the number of episodes progresses.\\
+Combining all four subgraphs, we can infer that the agent might be improving in terms of gaming efficiency but could be struggling with increasing the computational complexity. The agents must balance exploring new strategies and exploiting known strategies to maximize their overall performance.
 
-The graph shown in the top right corner of Figure \ref{fig:compare1} displays the Q-value over time, where the x-axis represents the number of episodes and the y-axis represents the Q-value. The Double Q- Q-learning method concluded a consistent Q-value function, which corresponds to the optimal policy. The variation of the Q-value is caused by the exploration during the episode.\\
 
-The reward value is demonstrated in the top left corner of Figure \ref{fig:compare1}, which displays the reward changing over the episode. The x-axis represents the number of episodes, and the y-axis represents the average reward value for each 20 episodes. The graph shows an increase in average reward as the number of episodes progresses. In the end, the reward diagram shows a tendency toward a possible convergence. \\
 ## References
 <a id="1">[1]</a>
 Hasselt, Hado van and Guez, Arthur and Silver, David. 
