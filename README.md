@@ -16,20 +16,17 @@ The agent's actions are decided by the current state of the environment and the 
 ## Architecture and Algorithm
 The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved through the use of two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline below.
 
-<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="700px"/>
+<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="500px"/>
 
 The start state is the initial state as the input $s$ of the Q-Network to predict the action $a$ that yields the highest Q-value. The Mario Bros. environment returns to the next state after the action. These two elements, along with the current state and action, are stored in a replay buffer.
 
-During the training, a batch of data containing state, next state, reward, and done status is randomly sampled from the replay buffer. Both networks process this batch to compute their respective output values $Q^*(s,a)$ and $r+\gamma\max_{a^'}Q^{**}(s^',a^')$, and update each other. This entire complete state action sequence constitutes an episode. To effectively train the agents to learn an optimal policy function, the process is repeated across multiple episodes.
+During the training, a batch of data containing state, next state, reward, and done status is randomly sampled from the replay buffer. Both networks process this batch to compute their respective output values $Q^*(s,a)$ and $r+\gamma\max_{a'}Q^{**}(s',a')$, and update each other. This entire complete state action sequence constitutes an episode. To effectively train the agents to learn an optimal policy function, the process is repeated across multiple episodes.
 
 The procedure of the algorithm is from the paper [[3]](#3), which is represented as a completed pseudocode in Algorithm.
 
 <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/algorithm.jpg" align="center" width="700px"/>
 
-
-For each episode, the agent repeats steps 3 to 12, and continues this over many episodes, progressively reducing $\gamma$ and refining the policy. 
-
-In the demonstrated Algorithm \ref{alg:algorithm}, there is a lack of information on tuning parameters like the learning rate, discount factor, and the frequency of updating the networks, which are critical for good performance. For the implementation in the next section, we adopt the parameter setting from the PyTorch tutorial. Depending on the complexity of the game state, different architectures (e.g., Convolutional neural networks (CNNs) \cite{8703316} for image-based states, simple feed-forward networks for processed numerical states) may be required. 
+For each episode, the agent repeats steps 3 to 12, and continues this over many episodes, progressively reducing $\gamma$ and refining the policy. Depending on the complexity of the game state, different architectures (e.g., Convolutional neural networks (CNNs) for image-based states, simple feed-forward networks for processed numerical states) may be required. 
 
 ## References
 <a id="1">[1]</a>
