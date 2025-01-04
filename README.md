@@ -35,6 +35,30 @@ For each episode, the agent repeats steps 3 to 12, and continues this over many 
 ## Implementation
 The implementation of a Double Q-learning model here is to play the Mario world "Super Mario Bros-1-1-v0", "Super Mario Bros-1-2-v0", and "Super Mario Bros-2-3-v0" which implies the [gym-super-mario-bros library](https://pypi.org/project/gym-super-mario-bros/) based on the [OpenAI Gym](https://openai.com/index/openai-gym-beta/) developed by OpenAI, is a toolkit and library specifically designed for reinforcement learning tasks. It provides a diverse collection of environments to various reinforcement learning algorithms. In Table below, a list of the library's versions and software is implied in this implementation example.
 
+<p align="center">
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/libs.jpg" align="center" width="350px"/>
+</p>
+
+To train the Double Q-learning method with the [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) can highly reduce the time consumption.
+
+There are eight worlds in the Mario Bros. game that can be implied by specifying any world number between 1 and 8. Each world has four stages. The difficulty of the world increases as the world number grows. The agent here trained completed the stages "1-1-v0",  "1-2-v0", and  "2-3-v0" to reach the end flags. However, training the agent for a much longer time for stage "1-2-v0" with the same conditions has not easily constructed an optimal action policy, which had trained for more than 60,000 episodes to reach the final flag. Compared to the stage "1-1-v0", the difficulty of the stage "1-2-v0" is increasing, which may result in longer training time. The training was halted at around 70,000 episodes for both world stages, yet the agent continued to show signs of improvement. While the agent demonstrated desired success in completing stage 1-1-v0, it struggled to make consistent progress in stage 1-2-v0. More training was simply needed in order to stabilize in a more complex world stage. 
+
+In the implementation from the PyTorch tutorial, the action of the Mario agent is limited to walk right and jump right. The agent aims to finish the game by reaching the final flag but disregards collecting as many coins as possible. Each state of the environment is represented by a [3, 240, 256] size array. Indeed, there is more information included in this array than what the agent needs, such as the color of the features, the background cloud, and the texture of objects. All of the above mentioned features do not affect the actions of the Mario agent. 
+
+## Analysis and Discussion
+There are four key metrics for evaluating the performance of the Mario agent trained using reinforcement learning: Reward, Q-value, Losses, and Time Lengths of the episode as follow
+
+<p align="center">
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/libs.jpg" align="center" width="350px"/>
+</p>
+
+The graph shown in the lower right corner of Figure \ref{fig:compare1} displays the moving average of episode lengths, where the x-axis represents the number of episodes and the y-axis represents the length of each episode. The agent has reached a consistent strategy but still experiences variability due to the game’s randomness within a new episode.\\
+
+The graph in the lower left corner of Figure \ref{fig:compare1} shows the episode average losses over time. The x-axis represents the number of episodes, and the y-axis represents the average loss. The graph shows a generally converging trend in average loss as the number of episodes progresses.\\
+
+The graph shown in the top right corner of Figure \ref{fig:compare1} displays the Q-value over time, where the x-axis represents the number of episodes and the y-axis represents the Q-value. The Double Q- Q-learning method concluded a consistent Q-value function, which corresponds to the optimal policy. The variation of the Q-value is caused by the exploration during the episode.\\
+
+The reward value is demonstrated in the top left corner of Figure \ref{fig:compare1}, which displays the reward changing over the episode. The x-axis represents the number of episodes, and the y-axis represents the average reward value for each 20 episodes. The graph shows an increase in average reward as the number of episodes progresses. In the end, the reward diagram shows a tendency toward a possible convergence. \\
 ## References
 <a id="1">[1]</a>
 Hasselt, Hado van and Guez, Arthur and Silver, David. 
