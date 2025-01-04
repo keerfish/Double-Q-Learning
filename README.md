@@ -14,8 +14,22 @@ In the reinforcement learning framework, an agent is trained to control the char
 The agent's actions are decided by the current state of the environment and the current action policy. For each state, Mario's agent either selects an action to explore potential strategies or exploits the neural network, which is based on previously learned information. The exploration rate gives the possibility of exploring the world or exploiting the experience information. We will set the exploration rate to one as the initial condition to guarantee the agent is doing a random action at the beginning. After a while, the exploration rate will be reduced. The agent will begin to exploit by using his neural network rather than explore with random actions. The agent improves his actions (or action policy) based on the repeat learning process. 
 
 ## Architecture and Algorithm
-The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved through the use of two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline.
-<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" width="700px"/>
+The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved through the use of two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline below.
+
+<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="700px"/>
+
+The start state is the initial state as the input $s$ of the Q-Network to predict the action $a$ that yields the highest Q-value. The Mario Bros. environment returns to the next state after the action. These two elements, along with the current state and action, are stored in a replay buffer.
+
+During the training, a batch of data containing state, next state, reward, and done status is randomly sampled from the replay buffer. Both networks process this batch to compute their respective output values $Q^*(s,a)$ and $r+\gamma\max_{a^'}Q^{**}(s^',a^')$, and update each other. This entire complete state action sequence constitutes an episode. To effectively train the agents to learn an optimal policy function, the process is repeated across multiple episodes.
+
+The procedure of the algorithm is from the paper [[3]](#3), which is represented as a completed pseudocode in Algorithm.
+
+<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/algorithm.jpg" align="center" width="700px"/>
+
+
+For each episode, the agent repeats steps 3 to 12, and continues this over many episodes, progressively reducing $\gamma$ and refining the policy. 
+
+In the demonstrated Algorithm \ref{alg:algorithm}, there is a lack of information on tuning parameters like the learning rate, discount factor, and the frequency of updating the networks, which are critical for good performance. For the implementation in the next section, we adopt the parameter setting from the PyTorch tutorial. Depending on the complexity of the game state, different architectures (e.g., Convolutional neural networks (CNNs) \cite{8703316} for image-based states, simple feed-forward networks for processed numerical states) may be required. 
 
 ## References
 <a id="1">[1]</a>
@@ -34,5 +48,15 @@ Machine Learning,
 pages 279--292, 
 volume = 8, 
 1992.
+
+<a id="3">[3]</a>
+Hasselt, Hado van. 
+Double Q-learning. 
+Curran Associates Inc, 
+Proceedings of the 23rd International Conference on Neural Information Processing Systems, 
+Volume 2, 
+pages 2613–2621, 
+Vancouver, British Columbia, Canada, 
+2010.
 
 
