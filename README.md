@@ -15,7 +15,7 @@ The agent's actions are decided by the current state of the environment and the 
 
 ## Architecture and Algorithm
 The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved through the use of two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline.
-<img src="https://github.com/keerfish/Double-Q-Learning/imgs/architecture.png" width="1000px"/>
+<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" width="1000px"/>
 
 ## References
 <a id="1">[1]</a>
