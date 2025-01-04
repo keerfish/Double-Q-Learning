@@ -11,10 +11,10 @@ Super Mario Bros. has two characters, Mario and Luigi, who work as plumbers. The
 ## Mario Agent Setting
 In the reinforcement learning framework, an agent is trained to control the character Mario in the game Mario Bros. The agent aims to navigate through Mario Bros.'s world within a proper time. The state of the game environment includes enemy positions, enemy states, obstacle positions, etc. When the agent is going through the game environment, it should avoid obstacles, defeat enemies, and ultimately complete the levels by reaching the end flag. 
 
-The agent's actions are decided by the current state of the environment and the current action policy. For each state, Mario's agent either selects an action to explore potential strategies or exploits the neural network, which is based on previously learned information. The exploration rate gives the possibility of exploring the world or exploiting the experience information. The exploration rate is set to one as the initial condition to guarantee the agent is doing a random action at the beginning. After a while, the exploration rate will be reduced. The agent will begin to exploit by using his neural network rather than explore with random actions. The agent improves his actions (or action policy) based on the repeat learning process. 
+The agent's actions are decided by the current state of the environment and the current action policy. For each state, Mario's agent either selects an action to explore potential strategies or exploits the neural network based on previously learned information. The exploration rate gives the possibility of exploring the world or exploiting the experience information. The exploration rate is set to one as the initial condition to guarantee the agent is doing a random action at the beginning. After a while, the exploration rate will be reduced. The agent will begin to exploit by using his neural network rather than explore with random actions. The agent improves his actions (or action policy) based on the repeat learning process. 
 
 ## Architecture and Algorithm
-The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved through the use of two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline below.
+The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved by utilizing two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline below.
 
 <p align="center">
   <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="400px"/>
@@ -27,34 +27,37 @@ During the training, a batch of data containing state, next state, reward, and d
 The procedure of the algorithm is from the paper [[3]](#3), which is represented as a completed pseudocode in Algorithm.
 
 <p align="center">
-  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/algorithm.jpg" align="center" width="700px"/>
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/algorithm.jpg" align="center" width="730px"/>
 </p>
 
 For each episode, the agent repeats steps 3 to 12, and continues this over many episodes, progressively reducing $\gamma$ and refining the policy. Depending on the complexity of the game state, different architectures (e.g., Convolutional neural networks (CNNs) for image-based states, simple feed-forward networks for processed numerical states) may be required. 
 
 ## Implementation
-The implementation of a Double Q-learning model here is to play the Mario world "Super Mario Bros-1-1-v0", "Super Mario Bros-1-2-v0", and "Super Mario Bros-2-3-v0" which implies the [gym-super-mario-bros library](https://pypi.org/project/gym-super-mario-bros/) based on the [OpenAI Gym](https://openai.com/index/openai-gym-beta/) developed by OpenAI, is a toolkit and library specifically designed for reinforcement learning tasks. It provides a diverse collection of environments to various reinforcement learning algorithms. In Table below, a list of the library's versions and software is implied in this implementation example.
+The implementation of a Double Q-learning model here is to play the Mario world "Super Mario Bros-1-1-v0", "Super Mario Bros-1-2-v0", and "Super Mario Bros-2-3-v0" which utilizes the [gym-super-mario-bros library](https://pypi.org/project/gym-super-mario-bros/) based on the [OpenAI Gym](https://openai.com/index/openai-gym-beta/) developed by OpenAI. OpenAI Gym is a toolkit and library specifically designed for reinforcement learning tasks, providing a diverse collection of environments for various reinforcement learning algorithms. The table below lists the versions of the libraries and software used in this implementation example. Training the Double Q-Learning method with the [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) can significantly reduce time consumption.
 
 <p align="center">
   <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/libs.jpg" align="center" width="350px"/>
 </p>
 
-To train the Double Q-learning method with the [CUDA Toolkit](https://developer.nvidia.com/cuda-toolkit) can highly reduce the time consumption.
+There are eight worlds in the Mario Bros. game, each of which can be selected by specifying a world number from 1 to 8. Within each world, four stages can be chosen, by selecting numbers from 1 to 4. The difficulty of the world increases as the world number grows. The agent here trained to complete the stages "1-1-v0",  "1-2-v0", and  "2-3-v0" by reaching the end flags. However, despite extended training under the same conditions, developing an optimal action policy for stage '1-2-v0' proved challenging. The agent required over 60,000 episodes of training to reach the final flag. Compared to the stage "1-1-v0", the difficulty of the stage "1-2-v0" is increasing, which may result in longer training time. The training was halted at around 70,000 episodes for both world stages, yet the agent continued to show signs of improvement. While the agent demonstrated desired success in completing stage 1-1-v0, it struggled to make consistent progress in stage 1-2-v0. More training episodes are necessary to stabilize on a more complex world stage. 
 
-There are eight worlds in the Mario Bros. game that can be implied by specifying any world number between 1 and 8. Each world has four stages. The difficulty of the world increases as the world number grows. The agent here trained completed the stages "1-1-v0",  "1-2-v0", and  "2-3-v0" to reach the end flags. However, training the agent for a much longer time for stage "1-2-v0" with the same conditions has not easily constructed an optimal action policy, which had trained for more than 60,000 episodes to reach the final flag. Compared to the stage "1-1-v0", the difficulty of the stage "1-2-v0" is increasing, which may result in longer training time. The training was halted at around 70,000 episodes for both world stages, yet the agent continued to show signs of improvement. While the agent demonstrated desired success in completing stage 1-1-v0, it struggled to make consistent progress in stage 1-2-v0. More training was simply needed in order to stabilize in a more complex world stage. 
-
-In the implementation from the PyTorch tutorial, the action of the Mario agent is limited to walk right and jump right. The agent aims to finish the game by reaching the final flag but disregards collecting as many coins as possible. Each state of the environment is represented by a [3, 240, 256] size array. Indeed, there is more information included in this array than what the agent needs, such as the color of the features, the background cloud, and the texture of objects. All of the above mentioned features do not affect the actions of the Mario agent. 
+In the implementation of the PyTorch tutorial, the action of the Mario agent is limited to walking right and jumping right. The agent aims to finish the game by reaching the final flag but disregards collecting as many coins as possible. Indeed, there is more information included in this array than what the agent needs, such as the color of the features, the background cloud, and the texture of objects. All of the above-mentioned features do not affect the actions of the Mario agent. 
 
 ## Analysis and Discussion
-There are four key metrics for evaluating the performance of the Mario agent trained using reinforcement learning: Reward, Q-value, Losses, and Time Lengths of the episode as follow
+There are four key metrics for evaluating the performance of the Mario agent trained using reinforcement learning: Reward, Q-value, Losses, and Time Lengths of the episode as follows:
 
 <p align="center">
-  <kbd><img src='results/world_1_1.gif' align="left" width=300/></kbd>
-  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/process_world_1_1.jpg" align="center" width="500px"/>
+  <kbd><img src='results/world_1_1.gif' align="left" width=500/></kbd>
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/process_world_1_1.jpg" align="center" width="360px"/>
 </p>
 
 The graph shown in the lower right corner of the Figure above displays the moving average of episode lengths, where the x-axis represents the number of episodes and the y-axis represents the length of each episode. The agent has reached a consistent strategy but still experiences variability due to the game’s randomness within a new episode.
-The graph in the lower left corner shows the episode average losses over time. The x-axis represents the number of episodes, and the y-axis represents the average loss. The graph shows a generally converging trend in average loss as the number of episodes progresses. The graph shown in the top right corner displays the Q-value over time, where the x-axis represents the number of episodes and the y-axis represents the Q-value. The Double Q-learning method concluded a consistent Q-value function, which corresponds to the optimal policy. The variation of the Q-value is caused by the exploration during the episode. The reward value is demonstrated in the top left corner, which displays the reward changing over the episode. The x-axis represents the number of episodes, and the y-axis represents the average reward value for each 20 episodes. The graph shows an increase in average reward as the number of episodes progresses. In the end, the reward diagram shows a tendency toward a possible convergence. 
+
+The graph in the lower left corner shows the episode average losses over time. The x-axis represents the number of episodes, and the y-axis represents the average loss. The graph shows a generally converging trend in average loss as the number of episodes progresses. 
+
+The graph shown in the top right corner displays the Q-value over time, where the x-axis represents the number of episodes and the y-axis represents the Q-value. The Double Q-learning method concluded a consistent Q-value function, which corresponds to the optimal policy. The variation of the Q-value is caused by the exploration during the episode. 
+
+The reward value is demonstrated in the top left corner, which displays the reward changing over the episode. The x-axis represents the number of episodes, and the y-axis represents the average reward value for each 20 episodes. The graph shows an increase in average reward as the number of episodes progresses. In the end, the reward diagram shows a tendency toward a possible convergence. 
 
 Combining all four subgraphs, we can infer that the agent might be improving in terms of gaming efficiency but could be struggling with increasing the computational complexity. The agents must balance exploring new strategies and exploiting known strategies to maximize their overall performance.
 
