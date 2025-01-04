@@ -16,7 +16,9 @@ The agent's actions are decided by the current state of the environment and the 
 ## Architecture and Algorithm
 The proposed Double Q-learning method in the paper [[1]](#1) addresses the overestimation problem from Q-learning [[2]](#2). This is achieved through the use of two independent networks, namely the Q-Network and the target Network in the implementation; see the framework pipeline below.
 
-<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="500px"/>
+<p align="center">
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/architecture.jpg" align="center" width="500px"/>
+</p>
 
 The start state is the initial state as the input $s$ of the Q-Network to predict the action $a$ that yields the highest Q-value. The Mario Bros. environment returns to the next state after the action. These two elements, along with the current state and action, are stored in a replay buffer.
 
@@ -24,9 +26,14 @@ During the training, a batch of data containing state, next state, reward, and d
 
 The procedure of the algorithm is from the paper [[3]](#3), which is represented as a completed pseudocode in Algorithm.
 
-<img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/algorithm.jpg" align="center" width="700px"/>
+<p align="center">
+  <img src="https://github.com/keerfish/Double-Q-Learning/blob/main/imgs/algorithm.jpg" align="center" width="700px"/>
+</p>
 
 For each episode, the agent repeats steps 3 to 12, and continues this over many episodes, progressively reducing $\gamma$ and refining the policy. Depending on the complexity of the game state, different architectures (e.g., Convolutional neural networks (CNNs) for image-based states, simple feed-forward networks for processed numerical states) may be required. 
+
+## Implementation
+The implementation of a Double Q-learning model here is to play the Mario world "Super Mario Bros-1-1-v0", "Super Mario Bros-1-2-v0", and "Super Mario Bros-2-3-v0" which implies the [gym-super-mario-bros library](https://pypi.org/project/gym-super-mario-bros/) based on the [OpenAI Gym](https://openai.com/index/openai-gym-beta/) developed by OpenAI, is a toolkit and library specifically designed for reinforcement learning tasks. It provides a diverse collection of environments to various reinforcement learning algorithms. In Table below, a list of the library's versions and software is implied in this implementation example.
 
 ## References
 <a id="1">[1]</a>
